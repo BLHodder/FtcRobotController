@@ -17,6 +17,8 @@ public class TeleOpMode extends OpMode {
     private DcMotor frontRight;
     private DcMotor backLeft;
     private DcMotor backRight;
+    private double powers[];
+    double big = 0;
 
 
 
@@ -60,14 +62,38 @@ public class TeleOpMode extends OpMode {
         double angle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x);
         double power = Math.sqrt(gamepad1.left_stick_y*gamepad1.left_stick_y+
                 gamepad1.left_stick_x*gamepad1.left_stick_x);
+        double rotate = gamepad1.right_stick_x;
         //Before testing on ground, test with the robot elevate to make sure all wheels spin
         // properly and in the correct direction
-        frontLeft.setPower(-power * Math.cos(angle - Math.PI/4));
-        backLeft.setPower(-power * Math.sin(angle - Math.PI/4));
-        frontRight.setPower(power * Math.sin(angle - Math.PI/4));
-        backRight.setPower(power * Math.cos(angle - Math.PI/4));
+        double frontLeftPower = (-power * Math.cos(angle - Math.PI/4)-rotate) ;
+        double backLeftPower = (-power * Math.sin(angle - Math.PI/4)-rotate);
+        double frontRightPower = (power * Math.sin(angle - Math.PI/4)-rotate);
+        double backRightPower = (power * Math.cos(angle - Math.PI/4)-rotate);
 
-        
+        powers[0] = frontLeftPower;
+        powers[1] = backLeftPower;
+        powers[2] = frontRightPower;
+        powers[3] = backRightPower;
+
+        for (int i = 0; i < powers.length; ++i) {
+            big = Math.max(big,Math.abs(powers[i]));
+        }
+
+
+
+        frontLeft.setPower(frontLeftPower/Math.max(big, 1));
+        backLeft.setPower(frontLeftPower/Math.max(big, 1));
+        frontRight.setPower(frontLeftPower/Math.max(big, 1));
+        backRight.setPower(frontLeftPower/Math.max(big, 1));
+
+        /**
+        frontLeft.setPower(-rotate);
+        backLeft.setPower(-rotate);
+        frontRight.setPower(-rotate);
+        backRight.setPower(-rotate);
+        */
+
+
 
 
 

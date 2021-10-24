@@ -2,12 +2,14 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 import org.firstinspires.ftc.teamcode.lib.GamepadWrapper;
 import org.firstinspires.ftc.teamcode.robot.MotorMap;
-
+import org.firstinspires.ftc.teamcode.robot.Robot;
 
 
 @TeleOp(name="TeleOpMode", group="LinearOpMode")
@@ -17,14 +19,19 @@ public class TeleOpMode extends OpMode {
     private DcMotor frontRight;
     private DcMotor backLeft;
     private DcMotor backRight;
+    private int DuckCounter = 0;
     private double powers[];
     double big = 0;
+    private Robot robot;
 
 
 
     @Override
     public void init() {
         gamepadWrapper = new GamepadWrapper();
+        robot = new Robot(hardwareMap, "duckServo", "frontLeft", "backLeft", "frontRight", "backRight");
+        robot.SetRunMode();
+
 
         frontLeft = hardwareMap.dcMotor.get("frontLeft");
         frontRight = hardwareMap.dcMotor.get("frontRight");
@@ -42,6 +49,8 @@ public class TeleOpMode extends OpMode {
 
         backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
 
     }
 
@@ -63,6 +72,8 @@ public class TeleOpMode extends OpMode {
         double power = Math.sqrt(gamepad1.left_stick_y*gamepad1.left_stick_y+
                 gamepad1.left_stick_x*gamepad1.left_stick_x);
         double rotate = gamepad1.right_stick_x;
+
+        robot.SetStrafe(power, angle, rotate);
         //Before testing on ground, test with the robot elevate to make sure all wheels spin
         // properly and in the correct direction
         double frontLeftPower = (-power * Math.cos(angle - Math.PI/4)-rotate) ;
@@ -93,6 +104,17 @@ public class TeleOpMode extends OpMode {
         backRight.setPower(-rotate);
          test
         */
+
+        if (gamepadWrapper.isPressed("g2_a")) {
+            ++DuckCounter;
+            if (DuckCounter % 2 == 0) {
+                robot.SetDuckPower(0.5);
+            } else {
+                robot.SetDuckPower(0);
+            }
+        }
+
+
 
 
 

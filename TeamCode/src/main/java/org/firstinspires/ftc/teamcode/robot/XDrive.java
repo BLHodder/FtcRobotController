@@ -52,11 +52,12 @@ public class XDrive extends DriveBase {
             big = Math.max(big,Math.abs(powers[i]));
         }
 
-
-
         frontLeftMotor.setPower(frontLeftPower/Math.max(big, 1));
         backLeftMotor.setPower(frontLeftPower/Math.max(big, 1));
         frontRightMotor.setPower(frontLeftPower/Math.max(big, 1));
         backRightMotor.setPower(frontLeftPower/Math.max(big, 1));
     }
+
+
+
 }

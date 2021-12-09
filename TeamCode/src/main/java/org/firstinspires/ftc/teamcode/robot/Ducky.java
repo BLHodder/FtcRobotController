@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.robot;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class Ducky {
+public class Ducky extends Mechanisms {
     private CRServo duckServo;
 
     public Ducky(HardwareMap hardwareMap, String duckName) {

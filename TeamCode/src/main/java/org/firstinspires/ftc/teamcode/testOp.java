@@ -31,7 +31,7 @@ public class testOp extends OpMode {
     @Override
     public void init() {
         gamepadWrapper = new GamepadWrapper();
-        robot = new Robot(hardwareMap, "duckServo", "frontLeft", "backLeft", "frontRight", "backRight");
+        robot = new Robot(hardwareMap, "duckServo", "frontLeft", "backLeft", "frontRight", "backRight", "clawServo");
         robot.SetRunMode();
 
 
